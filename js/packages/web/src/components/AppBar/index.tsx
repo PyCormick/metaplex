@@ -35,6 +35,19 @@ const UserActions = () => {
             {/* <Link to={`#`}>
             <Button className="app-btn">Bids</Button>
           </Link> */}
+          {canCreate ? (
+            <Link to={`/art/create`}>
+              <Button className="app-btn">Create</Button>
+            </Link>
+          ) : null}
+          <Link to={`/auction/create/0`}>
+            <Button className="connector" type="primary">
+              Sell
+            </Button>
+          </Link>
+          <Link to={`/sign-up`}>
+            <Button className="app-btn">Sign up</Button>
+          </Link>
             <div>
             {canCreate ? (
               <Menu.Item>
@@ -42,7 +55,9 @@ const UserActions = () => {
             </Menu.Item>) : null}
             <Menu.Item>
               <Link to={`/auction/create/0`}><Button className="connector" type="primary">Sell</Button></Link>
-          </div>
+            </Menu.Item>
+            </div>
+            <Menu.Item>
           <Divider type='vertical' style={{ marginLeft: '18px', marginRight: '0', top: 0, height: '40px' }}/>
               <Link to={`/swap`}><Button className="app-btn"><SwapOutlined /> Swap</Button></Link>
           <Divider type='vertical' style={{ marginLeft: '0', marginRight: '0', top: 0, height: '40px' }}/>
