@@ -35,6 +35,7 @@ import useWindowDimensions from '../../utils/layout';
 import { CheckOutlined } from '@ant-design/icons';
 import { useMemo } from 'react';
 import { ArtType } from '../../types';
+import {getAttributesByNftId} from "../../actions/lmsIntegration";
 import { ClickToCopy } from '../../components/ClickToCopy';
 
 export const AuctionItem = ({
@@ -81,6 +82,7 @@ export const AuctionView = () => {
   const { env } = useConnectionConfig();
   const auction = useAuction(id);
   const [currentIndex, setCurrentIndex] = useState(0);
+  let [attributes, setAttributes] = useState({});
   const art = useArt(auction?.thumbnail.metadata.pubkey);
   const { ref, data } = useExtendedArt(auction?.thumbnail.metadata.pubkey);
   const { pullAuctionPage } = useMeta();
@@ -100,8 +102,17 @@ export const AuctionView = () => {
 
   const hasDescription = data === undefined || data.description === undefined;
   const description = data?.description;
-  const attributes = data?.attributes;
-
+  // const attributes = data?.attributes;
+  useEffect(() => {
+    if (data !== undefined) {
+      getAttributesByNftId(id).then(res => {
+        setAttributes(res);
+      }).catch(e => {
+        console.log(e);
+      })
+    }
+    return;
+  }, [data])
   const items = [
     ...(auction?.items
       .flat()
@@ -170,9 +181,9 @@ export const AuctionView = () => {
             <>
               <h6>Attributes</h6>
               <List grid={{ column: 4 }}>
-                {attributes.map(attribute => (
-                  <List.Item>
-                    <Card title={attribute.trait_type}>{attribute.value}</Card>
+                {Object.entries(attributes).map((item: [string, any], idx) =>  (
+                  <List.Item key={idx}>
+                    <Card title={item[0]}>{item[1]}</Card>
                   </List.Item>
                 ))}
               </List>
