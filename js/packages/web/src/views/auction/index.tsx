@@ -119,7 +119,7 @@ export const AuctionView = () => {
       if (art.mint != null) {
         token_acc = accountByMint.get(art?.mint)
       }
-      getAttributesByNftId(token_acc.pubkey).then(res => {
+      getAttributesByNftId(token_acc.pubkey, env).then(res => {
         setAttributes(res);
         console.log(res)
       }).catch(e => {
