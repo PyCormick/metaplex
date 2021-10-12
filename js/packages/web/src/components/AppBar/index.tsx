@@ -35,16 +35,15 @@ const UserActions = () => {
             {/* <Link to={`#`}>
             <Button className="app-btn">Bids</Button>
           </Link> */}
-          {canCreate ? (
-            <Link to={`/art/create`}>
-              <Button className="app-btn">Create</Button>
-            </Link>
-          ) : null}
-          <Link to={`/auction/create/0`}>
-            <Button className="connector" type="primary">
-              Sell
-            </Button>
-          </Link>
+          <div>
+            {canCreate ? (
+              <Link to={`/art/create`}><Button className="app-btn">Create</Button></Link>
+            ) : null}
+            <Link to={`/auction/create/0`}><Button className="connector" type="primary">Sell</Button></Link>
+          </div>
+          <Divider type='vertical' style={{ marginLeft: '18px', marginRight: '0', top: 0, height: '40px' }}/>
+          <Link to={`/swap`}><Button className="app-btn"><SwapOutlined /> Swap</Button></Link>
+          <Divider type='vertical' style={{ marginLeft: '0', marginRight: '0', top: 0, height: '40px' }}/>
           <Link to={isAuth ? '/' : `/login`}>
             <Button onClick={logOut} className="app-btn">{isAuth ? 'Logout' : 'Login'}</Button>
           </Link>
