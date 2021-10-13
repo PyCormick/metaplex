@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Row, Col, Button, Skeleton, Carousel, List, Card } from 'antd';
 import { AuctionCard } from '../../components/AuctionCard';
-import { Connection } from '@solana/web3.js';
-import { AuctionViewItem } from '@oyster/common/dist/lib/models/metaplex/index';
+import {Connection, PublicKey} from '@solana/web3.js';
+import { AuctionViewItem } from '@oyster/common';
 import {
   AuctionView as Auction,
   useArt,
@@ -83,6 +83,7 @@ export const AuctionView = () => {
   const { id } = useParams<{ id: string }>();
   const { env } = useConnectionConfig();
   const auction = useAuction(id);
+  const connection = useConnection();
   const [currentIndex, setCurrentIndex] = useState(0);
   let [attributes, setAttributes] = useState([]);
   const art = useArt(auction?.thumbnail.metadata.pubkey);
@@ -115,18 +116,22 @@ export const AuctionView = () => {
 
   useEffect(() => {
     if (data !== undefined) {
-      let token_acc;
       if (art.mint != null) {
-        token_acc = accountByMint.get(art?.mint)
+        // FIXME: HOTFIX, fix it later.
+        connection.getTokenLargestAccounts(new PublicKey(art?.mint)).then(
+          (data) => {
+            getAttributesByNftId(data.value[0].address, env).then(res => {
+              setAttributes(res);
+            }).catch(e => {
+              console.log(e);
+            })
+          }
+        ).catch();
       }
-      getAttributesByNftId(token_acc.pubkey, env).then(res => {
-        setAttributes(res);
-        console.log(res)
-      }).catch(e => {
-        console.log(e);
-      })
     }
-    return;
+    return () => {
+      setAttributes([]);
+    };
   }, [data])
   const items = [
     ...(auction?.items
@@ -144,12 +149,12 @@ export const AuctionView = () => {
 
     return (
       <AuctionItem
-        key={item.metadata.pubkey}
-        item={item}
-        index={index}
-        size={arr.length}
-        active={index === currentIndex}
-      ></AuctionItem>
+  key={item.metadata.pubkey}
+  item={item}
+  index={index}
+  size={arr.length}
+  active={index === currentIndex}
+  />
     );
   });
 
