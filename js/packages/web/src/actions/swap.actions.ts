@@ -1,11 +1,10 @@
 import { sendSignedTransaction } from '@oyster/common';
 import { Token, TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { Account, AccountInfo, Connection, ParsedAccountData, PublicKey, TokenAccountsFilter, Transaction } from '@solana/web3.js';
+import { SWAP_ADDRESS } from '../models/Swap.model';
 import { TOKEN_SWAP_PROGRAM_ID, TokenSwap } from '../program/TokenSwap';
 
 let tokenSwap: TokenSwap;
-
-const SWAP_ADDRESS = new PublicKey('gszXA2RmCDbLHuJaV2YcUsHrFydHPMzo1okMLkp4uTw');
 
 let amountIn: number;
 let amountOut: number;
