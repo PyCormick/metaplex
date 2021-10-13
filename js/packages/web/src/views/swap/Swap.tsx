@@ -6,7 +6,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { createTokenATransaction, createTokenBTransaction, getAmountOut, getUserTokenABalance, getUserTokenBBalance, initTokenAccounts, initTokenSwap, isUserTokenAAccount, isUserTokenBAccount, setAmountIn, setIsReverse, swap, updateUserTokenAccounts } from '../../actions/swap.actions';
 import { InputAmount } from '../../components/InputAmount/InputAmount';
 import { SwapSymbolTypes } from '../../models/Swap.model';
-import styles from './Swap.module.less';
 
 const IconsMap = {
   usdt: <img src="/symbols/usdc.png" />,
@@ -108,8 +107,7 @@ export function Swap() {
   }, [ connection, wallet, updateBalances ]);
 
   return (
-    <div className={styles.root}>
-      <div>inited: {JSON.stringify(isInited)}</div>
+    <div className="swap-root">
       <InputAmount
         value={fromAmount}
         onChange={handleFromChange}
@@ -119,10 +117,10 @@ export function Swap() {
         label="From"
       />
 
-      <div className={styles.swapBox}>
+      <div className="swap-swapBox">
         <Button
           type="primary"
-          className={styles.swapButton}
+          className="swap-swapButton"
           onClick={handleReverse}
         >
           ⇅
@@ -139,7 +137,7 @@ export function Swap() {
       />
 
       <Button
-        className={styles.submitButton}
+        className="swap-submitButton"
         type="primary"
         size="large"
         onClick={wallet.connected ? handleSwap : wallet.connect}
