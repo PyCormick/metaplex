@@ -99,6 +99,7 @@ const VideoArtContent = ({
     if (playerApi) {
       playerApi.currentTime = 0;
     }
+    return;
   }, [active, playerApi]);
 
   const likelyVideo = (files || []).filter((f, index, arr) => {
