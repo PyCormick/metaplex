@@ -28,7 +28,6 @@ import { ViewOn } from '../../components/ViewOn';
 import { ArtType } from '../../types';
 import { ArtMinting } from '../../components/ArtMinting';
 import {getAttributesByNftId} from "../../actions/lmsIntegration";
-import {PublicKey} from "@solana/web3.js";
 
 const { Content } = Layout;
 
@@ -64,16 +63,11 @@ export const ArtView = () => {
   useEffect(() => {
     if (data !== undefined) {
       if (art.mint != null) {
-        // FIXME: HOTFIX, fix it later.
-        connection.getTokenLargestAccounts(new PublicKey(art?.mint)).then(
-          (data) => {
-            getAttributesByNftId(data.value[0].address, env).then(res => {
-              setAttributes(res);
-            }).catch(e => {
-              console.log(e);
-            })
-          }
-        ).catch();
+        getAttributesByNftId(art.mint, env).then(res => {
+          setAttributes(res);
+        }).catch(e => {
+          console.log(e);
+        })
       }
     }
     return;

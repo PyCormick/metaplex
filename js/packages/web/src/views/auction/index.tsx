@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Row, Col, Button, Skeleton, Carousel, List, Card } from 'antd';
 import { AuctionCard } from '../../components/AuctionCard';
-import {Connection, PublicKey} from '@solana/web3.js';
+import {Connection} from '@solana/web3.js';
 import { AuctionViewItem } from '@oyster/common';
 import {
   AuctionView as Auction,
@@ -26,8 +26,6 @@ import {
   AuctionState,
   StringPublicKey,
   toPublicKey,
-  useUserAccounts,
-  TokenAccount,
 } from '@oyster/common';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { MintInfo } from '@solana/spl-token';
@@ -82,7 +80,6 @@ export const AuctionView = () => {
   const { id } = useParams<{ id: string }>();
   const { env } = useConnectionConfig();
   const auction = useAuction(id);
-  const connection = useConnection();
   const [currentIndex, setCurrentIndex] = useState(0);
   let [attributes, setAttributes] = useState([]);
   const art = useArt(auction?.thumbnail.metadata.pubkey);
@@ -103,26 +100,14 @@ export const AuctionView = () => {
   const description = data?.description;
   // const attributes = data?.attributes;
 
-  const { userAccounts } = useUserAccounts();
-
-  const accountByMint = userAccounts.reduce((prev, acc) => {
-    prev.set(acc.info.mint.toBase58(), acc);
-    return prev;
-  }, new Map<string, TokenAccount>());
-
   useEffect(() => {
     if (data !== undefined) {
       if (art.mint != null) {
-        // FIXME: HOTFIX, fix it later.
-        connection.getTokenLargestAccounts(new PublicKey(art?.mint)).then(
-          (data) => {
-            getAttributesByNftId(data.value[0].address, env).then(res => {
-              setAttributes(res);
-            }).catch(e => {
-              console.log(e);
-            })
-          }
-        ).catch();
+        getAttributesByNftId(art.mint, env).then(res => {
+          setAttributes(res);
+        }).catch(e => {
+          console.log(e);
+        })
       }
     }
     return () => {
