@@ -47,25 +47,6 @@ const UserActions = () => {
           <Link to={isAuth ? '/' : `/login`}>
             <Button onClick={logOut} className="app-btn">{isAuth ? 'Logout' : 'Login'}</Button>
           </Link>
-            <div>
-            {canCreate ? (
-              <Menu.Item>
-                <Link to={`/art/create`}><Button className="app-btn">Create</Button></Link>
-            </Menu.Item>) : null}
-            <Menu.Item>
-              <Link to={`/auction/create/0`}><Button className="connector" type="primary">Sell</Button></Link>
-            </Menu.Item>
-            </div>
-            <Menu.Item>
-          <Divider type='vertical' style={{ marginLeft: '18px', marginRight: '0', top: 0, height: '40px' }}/>
-              <Link to={`/swap`}><Button className="app-btn"><SwapOutlined /> Swap</Button></Link>
-          <Divider type='vertical' style={{ marginLeft: '0', marginRight: '0', top: 0, height: '40px' }}/>
-            </Menu.Item>
-            <Menu.Item>
-              <Link to={isAuth ? '/' : `/login`}>
-                <Button onClick={logOut} className="app-btn">{isAuth ? 'Logout' : 'Login'}</Button>
-              </Link>
-            </Menu.Item>
           </Menu>
           <div className="divider" />
         </>
