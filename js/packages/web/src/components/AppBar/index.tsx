@@ -31,7 +31,6 @@ const UserActions = () => {
     <>
       {store && (
         <>
-          <Menu>
             {/* <Link to={`#`}>
             <Button className="app-btn">Bids</Button>
           </Link> */}
@@ -47,8 +46,6 @@ const UserActions = () => {
           <Link to={isAuth ? '/' : `/login`}>
             <Button onClick={logOut} className="app-btn">{isAuth ? 'Logout' : 'Login'}</Button>
           </Link>
-          </Menu>
-          <div className="divider" />
         </>
       )}
     </>
