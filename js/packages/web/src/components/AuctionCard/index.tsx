@@ -524,8 +524,9 @@ export const AuctionCard = ({
               };
 
               const instantSale = async () => {
+                console.log(auctionView);
                 setLoading(true);
-
+                console.log(auctionView);
                 const instantSalePrice =
                   auctionView.auctionDataExtended?.info.instantSalePrice;
                 const winningConfigType =
@@ -543,7 +544,7 @@ export const AuctionCard = ({
                   myPayingAccount &&
                   !isAuctionManagerAuthorityNotWalletOwner &&
                   isAuctionItemMaster;
-
+                console.log(auctionView);
                 // Placing a "bid" of the full amount results in a purchase to redeem.
                 if (
                   instantSalePrice &&
@@ -575,6 +576,7 @@ export const AuctionCard = ({
                 auctionView.myBidderPot = newAuctionState[1];
                 auctionView.myBidderMetadata = newAuctionState[2];
                 // Claim the purchase
+                console.log(auctionView);
                 try {
                   await sendRedeemBid(
                     connection,

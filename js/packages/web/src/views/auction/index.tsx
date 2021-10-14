@@ -108,7 +108,6 @@ export const AuctionView = () => {
     const initAttributes = async () => {
       try {
         const res = await getAttributesByNftId(art.mint, env);
-        console.log('--res', res)
         setAttributes(res);
       } catch (error) {
         console.log(error);
@@ -123,8 +122,6 @@ export const AuctionView = () => {
       setAttributes([]);
     };
   }, [data, art, env]);
-
-  console.log('--att', attributes)
 
 
   const items = [
