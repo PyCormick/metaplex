@@ -141,7 +141,7 @@ export function Swap() {
         type="primary"
         size="large"
         onClick={wallet.connected ? handleSwap : wallet.connect}
-        disabled={!isInited || !wallet.connected || fromAmount > currentBalance || Number(fromAmount) === 0}
+        disabled={isTokenCreated && (!isInited || !wallet.connected || fromAmount > currentBalance || Number(fromAmount) === 0)}
       >
         {isTokenCreated ? 'Swap tokens' : 'Create token account'}
       </Button>
