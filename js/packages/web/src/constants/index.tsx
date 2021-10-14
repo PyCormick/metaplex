@@ -27,11 +27,11 @@ export function backendLMSAddresses (cluster: string) {
       break;
     case "devnet":
       // endpoint = "api2-dev.letmespeak.pro";
-      endpoint = "api2.letmespeak.pro";
+      endpoint = "api2-dev.letmespeak.pro";
       break;
     default:
       // endpoint = "api2-dev.letmespeak.pro"
-      endpoint = "api2.letmespeak.pro"
+      endpoint = "api2-dev.letmespeak.pro"
   }
 
   const registrationUrl =
