@@ -81,7 +81,7 @@ export const AuctionView = () => {
   const { env } = useConnectionConfig();
   const auction = useAuction(id);
   const [currentIndex, setCurrentIndex] = useState(0);
-  let [attributes, setAttributes] = useState([]);
+  const [attributes, setAttributes] = useState([]);
   const art = useArt(auction?.thumbnail.metadata.pubkey);
   const { ref, data } = useExtendedArt(auction?.thumbnail.metadata.pubkey);
   const creators = useCreators(auction);
@@ -101,19 +101,32 @@ export const AuctionView = () => {
   // const attributes = data?.attributes;
 
   useEffect(() => {
-    if (data !== undefined) {
-      if (art.mint != null) {
-        getAttributesByNftId(art.mint, env).then(res => {
-          setAttributes(res);
-        }).catch(e => {
-          console.log(e);
-        })
-      }
+    if (!data || !art?.mint) {
+      return;
     }
+
+    const initAttributes = async () => {
+      try {
+        const res = await getAttributesByNftId(art.mint, env);
+        console.log('--res', res)
+        setAttributes(res);
+      } catch (error) {
+        console.log(error);
+        setAttributes([]);
+      }
+
+    }
+
+    initAttributes();
+
     return () => {
       setAttributes([]);
     };
-  }, [data])
+  }, [data, art, env]);
+
+  console.log('--att', attributes)
+
+
   const items = [
     ...(auction?.items
       .flat()
@@ -178,7 +191,7 @@ export const AuctionView = () => {
               ))}
           </div>
 
-          {attributes && (
+          {attributes.length > 0 && (
             <>
               <h6>Attributes</h6>
               <List grid={{ column: 4 }}>
